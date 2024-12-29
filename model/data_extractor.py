@@ -152,14 +152,17 @@ class DataExtractor:
             - collection .... collection where data should be saved
             - url ........... url of the page where the data should be retrieved from
             - fetching ...... dictionary indicating the key for the attribute in the collection,
-                            and the regex pattern to find the attribute values in the h4 heading
+                              and the regex pattern to find the attribute values in the h4 heading
         """
-        col      = self.db[collection]  # Select the collection to use
+        self.db[collection].drop() # Drop the collection if it already exists
+
+        col      = self.db[collection]
         response = requests.get(url)    # Perform the request
 
         # If request was successful, then scrape the page
         if response.status_code == 200:
             art_data = {k: None for k in fetching.keys()}  # Main data to extract
+            art_data['_id'] = 0
 
             soup = BeautifulSoup(response.content, 'html.parser')
             for tag in soup.find_all(['h3', 'h4']):
@@ -190,8 +193,10 @@ class DataExtractor:
                     article_content = next_pre.get_text(strip=True) if next_pre else ""
 
                     # Ensure previously extracted book/title data persists
+                    art_data['_id']    += 1
                     art_data['article'] = article_text
                     art_data['content'] = re.sub(r'\s+', ' ', article_content)
                     col.insert_one(art_data)
+            print()
         else:
             print('Could not fetch law, code', response.status_code)
