@@ -3,11 +3,14 @@ import json
 import random
 from googletrans import Translator
 
+from preprocess_data import Preprocessor
+
+ppsor = Preprocessor()
 # Connect to your MongoDB instance
-client = MongoClient("mongodb://localhost:27017/")  # Replace with your MongoDB URI if needed
+client = pssor.client  # Replace with your MongoDB URI if needed
 
 # Access the database
-db = client['laws_db']
+db = pssor.db
 
 # Get a list of all collections in the database
 collections = db.list_collection_names()
@@ -30,7 +33,7 @@ print(collection.find_one({"_id": 25}))  # Article 25 was included in the datase
 
 # Add template lines to the jsonl dataset from the 26th article on
 translator = Translator()
-with open('./data_extraction/data/luqac.jsonl', 'a') as f:
+with open('../../data/luqac.jsonl', 'a') as f, open('../../data/logs.txt', 'a') as logsf:
     for art in collection.find({'_id': {'$gt': 25}}):
         # Create the question
         q = f"{random.choice(['Can you explain', 'What does it mean'])} the Article {art['_id']} found in the {random.choice(['', 'Uruguayan '])}Constitution?"
@@ -47,6 +50,5 @@ with open('./data_extraction/data/luqac.jsonl', 'a') as f:
             print('Article', art['_id'], 'added to jsonl dataset...', end='\r')
 
         except TypeError:
-            with open('./data_extraction/data/logs.txt', 'a') as logsf:
-                logsf.write(f'Article {art["_id"]} could not be added successfully\n')
+            logsf.write(f'Article {art["_id"]} could not be added successfully\n')
 print()
