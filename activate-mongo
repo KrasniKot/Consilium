@@ -1,1 +1,1 @@
-mongod --dbpath /var/lib/mongodb
+mongod --dbpath /var/lib/mongodb --bind_ip_all --port 27017

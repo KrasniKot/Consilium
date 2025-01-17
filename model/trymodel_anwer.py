@@ -2,8 +2,8 @@ import torch
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 # Load the trained model and tokenizer
-model = GPT2LMHeadModel.from_pretrained("trained_gpt2_model")
-tokenizer = GPT2Tokenizer.from_pretrained("trained_gpt2_model")
+model = GPT2LMHeadModel.from_pretrained("../../trained_model")
+tokenizer = GPT2Tokenizer.from_pretrained("../../trained_model")
 model.eval()
 
 # Function to ask a question and get an answer
@@ -29,4 +29,4 @@ def ask_question(question):
     return answer.split("Answer:")[-1].strip()  # Return the generated answer
 
 # Example questions
-print(ask_question("Can I be forced to swear in my statement or confession during a trial?"))
+print(ask_question("So I can take over the entire world?"))
