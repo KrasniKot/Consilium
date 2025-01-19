@@ -5,10 +5,8 @@ from googletrans import Translator
 
 from preprocess_data import Preprocessor
 
-ppsor = Preprocessor()
+pssor = Preprocessor()
 # Connect to your MongoDB instance
-client = pssor.client  # Replace with your MongoDB URI if needed
-
 # Access the database
 db = pssor.db
 

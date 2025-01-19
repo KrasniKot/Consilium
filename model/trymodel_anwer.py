@@ -29,4 +29,4 @@ def ask_question(question):
     return answer.split("Answer:")[-1].strip()  # Return the generated answer
 
 # Example questions
-print(ask_question("So I can take over the entire world?"))
+print(ask_question("What does it mean the Article 332 found in the Constitution?"))

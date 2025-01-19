@@ -24,7 +24,8 @@ model     = GPT2LMHeadModel.from_pretrained('gpt2')
 # Build the dataset instance
 print('\nBuilding dataset...')
 pssor      = Preprocessor()
-dataset    = LUQaC(pssor.luqac, tokenizer)
+dataset = ("What does it mean the Article 332 found in the Constitution?", "Article 332 means that the provisions of the Constitution that recognize rights for individuals, as well as those that grant powers and impose duties on public authorities, will not cease to be applied due to the lack of specific regulations. Instead, they will be supplemented by analogous laws, general principles of law, and widely accepted doctrines.")
+dataset    = LUQaC([dataset], tokenizer)
 dataloader = DataLoader(dataset, batch_size=2)
 
 # Set up the optimizer
@@ -55,5 +56,5 @@ for e in range(epochs):
 
     if e % 5 == 0:
         model.save_pretrained('../../trained_model')     # After each 5 epochs, save model
-        tokenizer.save_pretrained('../..trained_model')  # Save the tokenizer as well
+        tokenizer.save_pretrained('../../trained_model')  # Save the tokenizer as well
     print()
