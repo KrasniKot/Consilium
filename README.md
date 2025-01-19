@@ -1,5 +1,5 @@
 # Consilium
-![Consilium Logo](https://drive.google.com/file/d/1sS1WcZcWYP7FXScldgE7B1q0QX-mKJRW/view?usp=sharing)
+![Consilium Logo](https://github.com/user-attachments/assets/a421f1d8-4e09-4350-bf8a-0ca70b59b462)
 
 ## What is it?
 __Consiluim__ is a generative model designed to provide accurate and concise answers to questions about the Uruguayan Constitution. Trained on a dataset of constitutional articles and legal content built also in the scope of this project, the model generates responses based on real-world queries. Its primary aim is to enhance accessibility to legal information, offering users an intuitive way to retrieve relevant insights into constitutional law.
