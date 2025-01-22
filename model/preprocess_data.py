@@ -2,9 +2,6 @@ import random
 import json
 
 from pymongo import MongoClient
-from datasets import load_dataset
-from transformers import BartTokenizer, BartForConditionalGeneration
-from parrot import Parrot
 
 
 class Preprocessor:
@@ -14,29 +11,36 @@ class Preprocessor:
         """ Initializes a Preprocessor Instance """
         self.client = MongoClient("mongodb://elated_pare:27017/")
         self.db     = self.client['laws_db']
-        self.prrt   = Parrot()
+        self.prrt   = None
 
-        self.luqac = None
         print('LUQaC dataset loaded...')
 
     def load_json_dataset(self, path):
         """ Loads a json dataset """
-        examples = []
+        self.set_parrot()
+
+        collection = self.db['augmented_luqac']
+    
+        # Check if the collection exists, and clear it
+        if collection.count_documents({}) > 0:
+            print('Collection already exists, clearing it...\n')
+            collection.delete_many({}) 
 
         # Open the JSONL file
         with open(path, "r", encoding="utf-8") as file:
             for i, line in enumerate(file):
                 print(f'Reading line {i}...', end='\r')
                 record = json.loads(line) # Parse each JSON line
-                examples.append((record.get('q'), record.get('a')))  # Add the raw question to the dataset
-                examples.append((self.apply_typos(record.get('q')), record.get('a')))  # Add same question with typos
+                if record.get('a'):
+                    self.save_aug_luqac(collection, (record.get('q'), record.get('a')))  # Add the raw question to the dataset
+                    self.save_aug_luqac(collection, (self.apply_typos(record.get('q')), record.get('a')))  # Add same question with typos
 
-                for pq in self.paraphraseq(record.get('q')):  # Paraphrase the question
-                    examples.append((pq, record.get('a')))  # Convert to tuple format (question, answer)
-                    examples.append((self.apply_typos(pq), record.get('a')))  # Add same paraphrased question with typos
+                    for pq in self.paraphraseq(record.get('q')):  # Paraphrase the question
+                        if pq.lower() not in record.get('q').lower():
+                            self.save_aug_luqac(collection, (pq, record.get('a')))  # Convert to tuple format (question, answer)
+                            self.save_aug_luqac(collection, (self.apply_typos(pq), record.get('a')))  # Add same paraphrased question with typos
 
-        print()
-        return examples
+        print(f"Augmented dataset with {collection.count_documents({})} examples has been saved to MongoDB.")
 
     def paraphraseq(self, question):
         """ Returns paraphrases for a question """
@@ -79,26 +83,26 @@ class Preprocessor:
         return ' '.join(augmented_words)
 
 
-    def save_aug_luqac(self):
+    def save_aug_luqac(self, col, row):
         """ Saves the luqac dataset into a mongo db collection """
+        # Insert the document into the MongoDB collection
+        col.insert_one({'q': row[0], 'a': row[1]})
+
+    def load_dataset(self):
+        """ Loads the LUQaC dataset """
         collection = self.db['augmented_luqac']
 
-        # Check if the collection exists, and clear it
-        if collection.count_documents({}) > 0:
-            print('Collection already exists, clearing it...')
-            self.collection.delete_many({}) 
+        # Fetch all documents from the collection
+        documents = collection.find()
 
-        # Insert all augmented examples into the collection
-        for example in self.luqac:
-            document = {'q': example[0], 'a': example[1]}
+        # Extract 'q' and 'a' fields and return as a list of tuples
+        return  [(doc['q'], doc['a']) for doc in documents if 'q' in doc and 'a' in doc]
 
-            # Insert the document into the MongoDB collection
-            collection.insert_one(document)
-
-        print(f"Augmented dataset with {len(self.luqac)} examples has been saved to MongoDB.")
+    def set_parrot(self):
+        from parrot import Parrot
+        self.prrt = Parrot()
 
 
 if __name__ == '__main__':
     pssor = Preprocessor()  # Create an instance of the class
     pssor.luqac = pssor.load_json_dataset('../../data/luqac.jsonl')  # Load the dataset and augment it
-    pssor.save_aug_luqac()  # Save the augmented dataset into a mongodb collection

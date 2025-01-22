@@ -8,8 +8,7 @@ model.eval()
 
 # Function to ask a question and get an answer
 def ask_question(question):
-    input_text = f"Question: {question} Answer:"
-    input_ids = tokenizer.encode(input_text, return_tensors="pt")
+    input_ids = tokenizer.encode(f'Question: {question} Answer:', return_tensors="pt")
     attention_mask = torch.ones(input_ids.shape, dtype=torch.long)
 
     with torch.no_grad():
@@ -26,7 +25,10 @@ def ask_question(question):
         )
 
     answer = tokenizer.decode(output[0], skip_special_tokens=True)
+    print('-' * 30)
     return answer.split("Answer:")[-1].strip()  # Return the generated answer
 
 # Example questions
-print(ask_question("What does it mean the Article 332 found in the Constitution?"))
+print(ask_question('What the Article 332 mean?'))
+print(ask_question('What can you tell me about the article 2 of the Uruguayan Constitution?'))
+print(ask_question('Can I be arrested if caught committing a crime?'))

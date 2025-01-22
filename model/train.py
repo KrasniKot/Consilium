@@ -1,6 +1,7 @@
 import torch
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from torch.utils.data import Dataset, DataLoader
+import matplotlib.pyplot as plt
 
 from preprocess_data import Preprocessor
 
@@ -24,9 +25,9 @@ model     = GPT2LMHeadModel.from_pretrained('gpt2')
 # Build the dataset instance
 print('\nBuilding dataset...')
 pssor      = Preprocessor()
-dataset = ("What does it mean the Article 332 found in the Constitution?", "Article 332 means that the provisions of the Constitution that recognize rights for individuals, as well as those that grant powers and impose duties on public authorities, will not cease to be applied due to the lack of specific regulations. Instead, they will be supplemented by analogous laws, general principles of law, and widely accepted doctrines.")
-dataset    = LUQaC([dataset], tokenizer)
-dataloader = DataLoader(dataset, batch_size=2)
+dataset    = pssor.load_dataset() 
+dataset    = LUQaC(dataset, tokenizer)
+dataloader = DataLoader(dataset, batch_size=3, shuffle=True)
 
 # Set up the optimizer
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
@@ -36,7 +37,9 @@ print('\nStarting the training...')
 model.train()
 
 # Training loop
-epochs = 100
+loss_values = []
+x_values    = []
+epochs      = 100
 for e in range(epochs):
     for b, batch in enumerate(dataloader):
 
@@ -52,9 +55,27 @@ for e in range(epochs):
         loss.backward()   # Backward pass
         optimizer.step()  # Update weights
 
-        print(f'processed batch {b} - total in epoch: {(b + 1) / len(dataloader):.4f} - epoch: {e} - loss: {loss.item():.4f}', end='\r')
+        # Store the loss value for plotting
+        loss_values.append(loss.item())
+        x_values.append(e + (b + 1) / len(dataloader))
+
+        print(f'processed batch {b} of {len(dataloader)}- total in epoch: {(b + 1) / len(dataloader):.4f} - epoch: {e} of {epochs} - loss: {loss.item():.4f}', end='\r')
 
     if e % 5 == 0:
-        model.save_pretrained('../../trained_model')     # After each 5 epochs, save model
+        model.save_pretrained('../../trained_model')      # After each 5 epochs, save model
         tokenizer.save_pretrained('../../trained_model')  # Save the tokenizer as well
+
+    # Plot the loss across all epochs
+    plt.figure(figsize=(10, 6))
+    plt.plot(x_values, loss_values, label='Loss', color='b')
+    plt.title('Cross-Entropy Loss Progress')
+    plt.xlabel('Epoch (with Batch Progress)')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.grid(True)
+    
+    # Save the plot as an image after each epoch
+    plt.savefig(f'cross_entropy_loss_progress.png')  # Save the plot image
+    plt.close()  # Close the plot to avoid memory issues
+
     print()
