@@ -1,6 +1,6 @@
 from data_extractor import DataExtractor
 
-de = DataExtractor(jsonfile='./data/Laws-20000101_20250101_raw.json')  # Generate the data extractor
+de = DataExtractor(jsonfile='../../data/Laws-20000101_20250101_raw.json')  # Generate the data extractor
 
 # Get the laws from the json file, covering texts from 01-01-2000 up to 01-01-2025
 de.fetch_json()         # Fetch the json containing all the laws' metadata

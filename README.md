@@ -59,6 +59,6 @@ This project is still under development, with the following features under consi
 ## Contact Information
 If you have any questions, suggestions, or comments, feel free to reach out through any of the following channels:
 
-- __Email__ ........ emanueltrias9@gmail.com
-- __LinkedIn__ ..... [Emanuel Trias](https://www.linkedin.com/in/emanuel-trias-86641a280/)
-- __GitHub__ ....... [KrasniKot](https://github.com/KrasniKot)
+- __Email__: emanueltrias9@gmail.com
+- __LinkedIn__: [Emanuel Trias](https://www.linkedin.com/in/emanuel-trias-86641a280/)
+- __GitHub__: [KrasniKot](https://github.com/KrasniKot)

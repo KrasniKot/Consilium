@@ -37,6 +37,7 @@ print('\nStarting the training...')
 model.train()
 
 # Training loop
+directory   = '../../trained_model'
 loss_values = []
 x_values    = []
 epochs      = 100
@@ -62,8 +63,9 @@ for e in range(epochs):
         print(f'processed batch {b} of {len(dataloader)}- total in epoch: {(b + 1) / len(dataloader):.4f} - epoch: {e} of {epochs} - loss: {loss.item():.4f}', end='\r')
 
     if e % 5 == 0:
-        model.save_pretrained('../../trained_model')      # After each 5 epochs, save model
-        tokenizer.save_pretrained('../../trained_model')  # Save the tokenizer as well
+        model.save_pretrained(directory)      # After each 5 epochs, save model
+        tokenizer.save_pretrained(directory)  # Save the tokenizer as well
+        print()
 
     # Plot the loss across all epochs
     plt.figure(figsize=(10, 6))
@@ -75,7 +77,7 @@ for e in range(epochs):
     plt.grid(True)
     
     # Save the plot as an image after each epoch
-    plt.savefig(f'cross_entropy_loss_progress.png')  # Save the plot image
+    plt.savefig(directory + '/cross_entropy_loss_progress.png')  # Save the plot image
     plt.close()  # Close the plot to avoid memory issues
 
     print()
