@@ -13,27 +13,48 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
 }
+
 h1 {
     font-size: 2rem;
     text-align: center;
-    color: #4ca1af;
+    background: linear-gradient(to right, rgb(26, 25, 25), #7b818a); /* Gradient from left to right */
+    -webkit-background-clip: text; /* Use background clip for text color */
+    color: transparent;
+    border: 1px solid white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    margin: 0 auto;
+    display: flex;             /* Enable flexbox */
+    align-items: flex-end;;    /* Vertically center content */
+    justify-content: center;   /* Horizontally center content */
 }
+
+h1 img {
+    max-width: 60px;
+    height: auto;
+    margin-right: 10px;
+    filter: none;
+}
+
 p {
     text-align: center;
     font-size: 1rem;
     color: #bdbdbd;
 }
+
 form {
     margin-top: 20px;
 }
+
 label {
     display: block;
     font-size: 1rem;
     margin-bottom: 8px;
     color: #bdbdbd;
 }
+
 input[type="text"] {
-    width: 100%;
+    width: 98%;
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #555;
@@ -70,4 +91,15 @@ footer {
     padding: 10px;
     font-size: 0.9rem;
     color: #bdbdbd;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+footer a {
+    color: red;
+    text-decoration: none;
 }
