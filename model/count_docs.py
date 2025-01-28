@@ -36,7 +36,8 @@ def translate():
     """ Translates the context and generates questions """
     translator = Translator()
     with open('../../data/luqac.jsonl', 'a') as f, open('../../data/logs.txt', 'a') as logsf:
-        for art in collection.find({'_id': {'$gt': 25}}):
+        #for art in collection.find({'_id': {'$gt': 25}}):
+        for art in collection.find({}):
             # Create the question
             q = f"{random.choice(['Can you explain', 'What does it mean'])} the Article {art['_id']} found in the {random.choice(['', 'Uruguayan '])}Constitution?"
 

@@ -88,11 +88,18 @@ root@40c7be4bb2bf:~/Consilium/model#
 
 ### Data preprocessing
 
-After having the ``data`` directory ready it is possible to proceed with the data agumentation phase.
+After having the ``data`` directory ready it is possible to proceed with the data agumentation phase. Here are the steps:
+
+1. Create your dataset based on the data retrieved, you may store it into ``../data/luqac.json``.
+2. Uncomment the lines __59__ and __87__ in the ``./model/count_docs.py``.
+3. Run ``python count_docs.py``. This will get you automatically a set of variated questions and transalted context, with no answer.
+4. Write the answers manually (for now).
+5. Run ``python preprocess_data.py`` so the dataset is augmented by generating paraphrases of the questions and typo simulated questions and saved afterwards in the db set in the ``load_json_dataset`` and ``load_dataset`` functions.
+6. Now you can train your model.
 
 ## Results
 
-Once the model reached 20 epochs, this plot shows the model effectively learnt from the training dataset.
+Once the training was performed and the model reached 20 epochs, this plot shows the model effectively learnt from the training dataset.
 ![model loss](https://private-user-images.githubusercontent.com/124268332/407136318-ad901a9d-10d8-4ddd-81d7-e963df4de8c2.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzgwMjU0NjgsIm5iZiI6MTczODAyNTE2OCwicGF0aCI6Ii8xMjQyNjgzMzIvNDA3MTM2MzE4LWFkOTAxYTlkLTEwZDgtNGRkZC04MWQ3LWU5NjNkZjRkZThjMi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMTI4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDEyOFQwMDQ2MDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iYzY5NjUwNjdkYmVlN2Q5N2M0Mjk0OTYwZTFiYjQ4NjYwZjI3MTE5NmY1OWMyMjVhZTRjN2U3MzRiMmViMjMxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.KtGzIUZfTu_XBer7t8sZ7wkhsNNLoEECSnVz0y-yFtk)
 
 After the training is completed, we can run the ``Consilium/model/answer.py`` file by ``python answer.py`` when possitioned in the ```model/`` directory.
@@ -114,7 +121,7 @@ Defendants removed from their positions by the Senate, following constitutional 
 ...
 ```
 
-Being a generative model, the answers may variate in their accuracy and construction, but overall the performance won't change that much.
+Being a generative model, the answers may variate in their accuracy and construction, but the overall performance will not change change that much.
 
 ## Future Improvements  
 This project is still under development, with the following features under consideration:  
