@@ -17,7 +17,7 @@ class DataExtractor:
             - jsonfile .... json file to use
         """
         # DB Set up
-        self.client = MongoClient('mongodb://localhost:27017/')
+        self.client = MongoClient('mongodb://elated_pare:27017/')
         self.db     = self.client['laws_db']
 
         self.jsonfile = jsonfile
