@@ -8,7 +8,7 @@ import asyncio
 from preprocess_data import Preprocessor
 
 pssor = Preprocessor()
-# Connect to your MongoDB instance
+# Connect to MongoDB instance
 # Access the database
 db = pssor.db
 
