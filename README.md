@@ -12,6 +12,7 @@ The motivation behind _Consiluim_ is to improve access to legal information, spe
 - [x] Trained on the Uruguayan Constitution.
 - [x] Generates answers to constitutional inquiries.
 - [x] Training dataset includes real-world questions on some articles.
+- [x] Web page to make the interaction with the model more engaging
 
 ## Instalation
 Before being able to try this project out there are some requirements that need to be met:
@@ -100,7 +101,7 @@ After having the ``data`` directory ready it is possible to proceed with the dat
 ## Results
 
 Once the training was performed and the model reached 20 epochs, this plot shows the model effectively learnt from the training dataset.
-![model loss](https://private-user-images.githubusercontent.com/124268332/407136318-ad901a9d-10d8-4ddd-81d7-e963df4de8c2.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzgwMjU0NjgsIm5iZiI6MTczODAyNTE2OCwicGF0aCI6Ii8xMjQyNjgzMzIvNDA3MTM2MzE4LWFkOTAxYTlkLTEwZDgtNGRkZC04MWQ3LWU5NjNkZjRkZThjMi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMTI4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDEyOFQwMDQ2MDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iYzY5NjUwNjdkYmVlN2Q5N2M0Mjk0OTYwZTFiYjQ4NjYwZjI3MTE5NmY1OWMyMjVhZTRjN2U3MzRiMmViMjMxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.KtGzIUZfTu_XBer7t8sZ7wkhsNNLoEECSnVz0y-yFtk)
+![model loss](./model/407136318-ad901a9d-10d8-4ddd-81d7-e963df4de8c2.png)
 
 After the training is completed, we can run the ``Consilium/model/answer.py`` file by ``python answer.py`` when possitioned in the ```model/`` directory.
 
