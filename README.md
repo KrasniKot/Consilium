@@ -16,14 +16,21 @@ The motivation behind _Consiluim_ is to improve access to legal information, spe
 ## Instalation
 Before being able to try this project out there are some requirements that need to be met:
 
+1. __Python__: Version 3.12.8
+2. __pip__: version 24.3.1
+3. __./requirements.txt__: This file contains most if not all, the modules needed in order to run any code of this project
+4. __../trained_model__: This directory holds the model and tokeniser configuration
+5. __Mongo__: This is the database used to store the augmented dataset
 
 ## Usage
 
+- Make sure the current working directory is inside the ``public`` directory
+- Run the command ``uvicorn app:app --reload --port 8085``
+- Open the browser (Edge is currently strongly advised) and navigate to [LocalHost](http://localhost:8085/)
 
-## Model Evaluation
+[page preview](https://github.com/user-attachments/assets/e4f5981c-6c3b-4684-9380-5b1de3c87425)
 
-
-## Data
+## Data and training
 
 ### Quick note about the lack of validation and test dataset
 Currently, the project does not have a separate validation or test dataset. The focus has been on training the model with a small dataset, which consists of questions related to the articles of the Uruguayan Constitution. Using examples from the same dataset for validation would limit the model's ability to learn useful information, as it would be exposed to the same data during both training and evaluation phases.
@@ -37,7 +44,44 @@ The data used for the training of this model was extracted from two main sites:
 - [Parlamento](https://parlamento.gub.uy/)
 - [IMPO](https://www.impo.com.uy/)
 
-Using the ``model/data_extraction/main_extract_data.py``
+To extract the data yourself:
+- It is important to keep in mind that the files listed bellow in their ``__init__`` method have the url to the container and port running the mongo db service, in case your container is named differently, which is likely, place your own container name and/or url. The method to establish a connection between two containers to access the mongo server __is not yet covered here__.
+  - ``Consilium/model/preprocess_data.py``
+  - ``Consilium/model/data_extraction/data_extractor.py```
+  
+- Navigate to ``model/data_extraction``
+- Run ``python main_extract_data.py.`` It will start to save the legal texts, articles, chapters, etc, into the mongo db database. The extracted texts will be the Uruguayan:
+  - [x] Constitution
+  - [x] Penal Code
+  - [x] Civil Code
+  - [x] Commercial Code
+  - [x] Tax Code
+  - [x] Criminal Procedure Code
+  - [x] General Process Code
+
+```root@40c7be4bb2bf:~/Consilium/model/data_extraction# python main_extract_data.py 
+Fetching laws form from 01-01-2000 up to 01-01-2025...
+>>> Fetching law number 20369    in https://www.impo.com.uy/bases/leyes/20369-2024     -     7 out of 3143  (0.00223)...
+```
+
+Then using the ``Consilium/model/count_docs.py`` by running ``python count_docs.py`` you will get a count of the documents found within each collection in your db.
+
+```
+root@40c7be4bb2bf:~/Consilium/model# ls
+activate-mongo  answer.py  count_docs.py  data_extraction  preprocess_data.py  train.py
+root@40c7be4bb2bf:~/Consilium/model# python count_docs.py 
+LUQaC dataset loaded...
+Collection <laws-updated_texts> contains:                   3143
+Collection <constitution_articles> contains:                332
+Collection <general_procedure_code_articles> contains:      553
+Collection <civil_code_articles> contains:                  2334
+Collection <augmented_luqac> contains:                      6206
+Collection <criminal_procedure_code_articles> contains:     411
+Collection <penal_code_articles> contains:                  423
+Collection <commercial_code_articles> contains:             1251
+Collection <tax_code_articles> contains:                    114
+root@40c7be4bb2bf:~/Consilium/model# 
+```
 
 ### Data preprocessing
 
