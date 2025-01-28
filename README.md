@@ -28,7 +28,7 @@ Before being able to try this project out there are some requirements that need 
 - Run the command ``uvicorn app:app --reload --port 8085``
 - Open the browser (Edge is currently strongly advised) and navigate to [LocalHost](http://localhost:8085/)
 
-[page preview](https://github.com/user-attachments/assets/e4f5981c-6c3b-4684-9380-5b1de3c87425)
+![page preview](https://github.com/user-attachments/assets/e4f5981c-6c3b-4684-9380-5b1de3c87425)
 
 ## Data and training
 
